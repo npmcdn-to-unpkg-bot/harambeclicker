@@ -1,2 +1,2 @@
 # cookieclicker
-A cookie clicker website that stores in cookies.
+A cookie clicker website that stores in cookies. Just a basic website using React.js
