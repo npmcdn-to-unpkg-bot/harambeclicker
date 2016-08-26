@@ -1,3 +1,52 @@
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+body {
+  background-image: url("../images/bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 .logo {
   margin-left: 1%;
+}
+h2 {
+  color: white !important;
+}
+h2.dashboard {
+  font-family: 'Lobster', cursive;
+}
+small.white {
+  font-family: 'Oswald', sans-serif;
+}
+.lobster {
+  font-family: 'Lobster', cursive;
+}
+small.white {
+  color: white !important;
+}
+h1.logo {
+  color: white !important;
+  font-family: 'Lobster', cursive;
+}
+
+/* React Components */
+.cookie-side {
+  padding: 5%;
+}
+.dash-side {
+  width: 90%;
+  padding: 2%;
+  border-radius: 15px 50px;
+  border: 2px solid #D499B9;
+  padding-bottom: 10%;
+}
+.cookie {
+  display: block;
+  margin: 0 auto;
 }

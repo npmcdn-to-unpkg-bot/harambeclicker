@@ -1,13 +1,14 @@
 var CookieClicker = React.createClass({
   getInitialState: function() {
-    if (Cookies.get('cookieclicker') === undefined) {
+    if (Cookies.get('cookieclicker') === undefined || document.location.search.includes('reset')) {
       return {
         cookies: 0.0,
         bonus: 0.0,
-        clickfarm: 0,
+        cursor: 0,
         // Calm down, it stands for "cookies per second".
         cps: 1,
-        bonuscost: 10
+        bonuscost: 10,
+        cursorcost: 5
       }
     } else {
       return Cookies.getJSON('cookieclicker');
@@ -36,6 +37,21 @@ var CookieClicker = React.createClass({
     }
   },
 
+  onBuyCursor: function() {
+    if (this.state.cursorcost > this.state.cookies) {
+      alert("You do not have enough cookies to purchase a bonus.");
+    } else if (this.state.cookies > this.state.cursorcost) {
+      this.setState({
+        cookies: this.state.cookies - this.state.cursorcost,
+        cursor: this.state.cursor + 1,
+        cursorcost: this.state.cursorcost * 2,
+        cps: this.state.cps + 1
+      });
+    } else {
+      console.log("An error occured.");
+    }
+  },
+
   cookiesPerSecond: function() {
     this.setState({
       cookies: this.state.cookies + this.state.cps
@@ -46,9 +62,10 @@ var CookieClicker = React.createClass({
     Cookies.set('cookieclicker', {
       cookies: this.state.cookies,
       bonus: this.state.bonus,
-      clickfarm: this.state.clickfarm,
+      cursor: this.state.cursor,
       cps: this.state.cps,
-      bonuscost: this.state.bonuscost
+      bonuscost: this.state.bonuscost,
+      cursorcost: this.state.cursorcost
     });
   },
 
@@ -59,17 +76,24 @@ var CookieClicker = React.createClass({
 
   render: function() {
     return (
-    <div className = "row">
+    <div className="row">
       <div className="col-md-6">
-        <img src = "./public/images/cookie.png" onClick={this.onCookieClick} />
-        <h2> Cookies : {this.state.cookies} <br/>
-        Bonus:{this.state.bonus}<br/>
-        Clickfarms:{this.state.clickfarm} <br/>
-        Cookies Per Second:{this.state.cps}</h2>
+        <div className="cookie-side">
+          <img className="cookie" src="./public/images/cookie.png" onClick={this.onCookieClick} />
+          <h2 className="lobster">Cookies: <small className="white">{this.state.cookies}</small><br/>
+          Bonus: <small className="white">{this.state.bonus}</small><br/>
+        Cursors: <small className="white">{this.state.cursor}</small><br/>
+      Cookies Per Second: <small className="white">{this.state.cps}</small></h2>
+        </div>
       </div>
       <div className="col-md-6">
-        <h2>Dashboard</h2>
-        <button onClick={this.onBuyBonus} className="btn btn-large btn-success">Buy Bonus</button>
+          <div className="dash-side">
+                <h2 className="dashboard">Dashboard</h2>
+                <button onClick={this.onBuyBonus} className="btn btn-large btn-success">Buy Bonus <span className="badge">Cost: {this.state.bonuscost}</span></button>
+                <br />
+                <br />
+                <button onClick={this.onBuyCursor} className="btn btn-large btn-success">Buy Cursor <span className="badge">Cost: {this.state.cursorcost}</span></button>
+        </div>
       </div>
     </div>
     )
@@ -81,4 +105,4 @@ var CookieClicker = React.createClass({
 
 });
 
-ReactDOM.render(< CookieClicker / >, document.getElementById('app'));
+ReactDOM.render(<CookieClicker />, document.getElementById('app'));
