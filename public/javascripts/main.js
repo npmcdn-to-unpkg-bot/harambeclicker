@@ -65,7 +65,7 @@ var HarambeClicker = React.createClass({
       this.setState({
         harambes: this.state.harambes - this.state.bananafarmcost,
         bananafarms: this.state.bananafarms + 1,
-        bananacost: this.state.bananafarmcost * 3,
+        bananafarmcost: this.state.bananafarmcost * 3,
         hps: this.state.hps + 5
       });
       notie.alert(1, 'Purchased', 1)
