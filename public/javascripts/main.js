@@ -1,77 +1,128 @@
-var CookieClicker = React.createClass({
+var HarambeClicker = React.createClass({
   getInitialState: function() {
-    if (Cookies.get('cookieclicker') === undefined || document.location.search.includes('reset')) {
+    if (Cookies.get('harambeclicker') === undefined || document.location.search.includes('reset')) {
       return {
-        cookies: 0.0,
+        harambes: 0.0,
         bonus: 0.0,
-        cursor: 0,
-        // Calm down, it stands for "cookies per second".
-        cps: 1,
+        banana: 0,
+        // Calm down, it stands for "harambes per second".
+        hps: 1,
         bonuscost: 10,
-        cursorcost: 5
+        bananacost: 1,
+        bananafarmcost: 20,
+        bananafarms: 0,
+        superbonus: 0,
+        superbonuscost: 50000
       }
     } else {
-      return Cookies.getJSON('cookieclicker');
-      console.log(Cookies.getJSON('cookieclicker'));
+      return Cookies.getJSON('harambeclicker');
+      console.log(Cookies.getJSON('harambeclicker'));
     }
   },
 
-  onCookieClick: function() {
+  onHarambeClick: function() {
     this.setState({
-      cookies: this.state.cookies + 1
+      harambes: this.state.harambes + 1
     });
   },
 
   onBuyBonus: function() {
-    if (this.state.bonuscost > this.state.cookies) {
-      alert("You do not have enough cookies to purchase a bonus.");
-    } else if (this.state.cookies > this.state.bonuscost) {
+    if (this.state.bonuscost > this.state.harambes) {
+      notie.alert(3, 'You don\'t have enough harambes to purchase.', 1)
+    } else if (this.state.harambes > this.state.bonuscost) {
       this.setState({
         bonus: this.state.bonus + 1,
         bonuscost: this.state.bonuscost * 2,
-        cps: this.state.cps + 2,
-        cookies: this.state.cookies - this.state.bonuscost
+        hps: this.state.hps + 2,
+        harambes: this.state.harambes - this.state.bonuscost
       });
+      notie.alert(1, 'Purchased', 1)
     } else {
       console.log("An error occured.");
     }
   },
 
-  onBuyCursor: function() {
-    if (this.state.cursorcost > this.state.cookies) {
-      alert("You do not have enough cookies to purchase a bonus.");
-    } else if (this.state.cookies > this.state.cursorcost) {
+  onBuyBanana: function() {
+    if (this.state.bananacost > this.state.harambes) {
+      notie.alert(3, 'You don\'t have enough harambes to purchase.', 1)
+    } else if (this.state.harambes > this.state.bananacost) {
       this.setState({
-        cookies: this.state.cookies - this.state.cursorcost,
-        cursor: this.state.cursor + 1,
-        cursorcost: this.state.cursorcost * 2,
-        cps: this.state.cps + 1
+        harambes: this.state.harambes - this.state.bananacost,
+        banana: this.state.banana + 1,
+        bananacost: this.state.bananacost * 2,
+        hps: this.state.hps + 1
       });
+      notie.alert(1, 'Purchased', 1)
     } else {
       console.log("An error occured.");
     }
   },
 
-  cookiesPerSecond: function() {
+  onBuyBananaFarm: function() {
+    if (this.state.bananafarmcost > this.state.harambes) {
+      notie.alert(3, 'You don\'t have enough harambes to purchase.', 1)
+    } else if (this.state.harambes > this.state.bananafarmcost) {
+      this.setState({
+        harambes: this.state.harambes - this.state.bananafarmcost,
+        bananafarms: this.state.bananafarms + 1,
+        bananacost: this.state.bananafarmcost * 3,
+        hps: this.state.hps + 5
+      });
+      notie.alert(1, 'Purchased', 1)
+    } else {
+      console.log("An error occured.");
+    }
+  },
+
+  onSuperBonus: function() {
+    if (this.state.superbonuscost > this.state.harambes) {
+      notie.alert(3, 'You don\'t have enough harambes to purchase.', 1)
+    } else if (this.state.superbonuscost > this.state.bananafarmcost) {
+      this.setState({
+        harambes: this.state.harambes - this.state.superbonuscost,
+        superbonus: this.state.superbonus + 1,
+        superbonuscost: this.state.superbonuscost * 4,
+        hps: this.state.hps + 5000
+      });
+      notie.alert(1, 'Purchased', 1)
+    } else {
+      console.log("An error occured.");
+    }
+  },
+
+  harambesPerSecond: function() {
     this.setState({
-      cookies: this.state.cookies + this.state.cps
+      harambes: this.state.harambes + this.state.hps
     });
+    document.title = this.state.harambes + " Harambes" + " - Harambe Clicker";
   },
 
   saveData: function() {
-    Cookies.set('cookieclicker', {
-      cookies: this.state.cookies,
+    Cookies.set('harambeclicker', {
+      harambes: this.state.harambes,
       bonus: this.state.bonus,
-      cursor: this.state.cursor,
-      cps: this.state.cps,
+      banana: this.state.banana,
+      hps: this.state.hps,
       bonuscost: this.state.bonuscost,
-      cursorcost: this.state.cursorcost
+      bananacost: this.state.bananacost,
+      bananafarms: this.state.bananafarms,
+      bananafarmcost: this.state.bananafarmcost,
+      superbonus: this.state.superbonus,
+      superbonuscost: this.state.superbonuscost
     });
   },
 
   componentDidMount: function() {
-    this.interval = setInterval(this.cookiesPerSecond, 1000);
+    this.interval = setInterval(this.harambesPerSecond, 1000);
     this.save = setInterval(this.saveData, 1000);
+    cheet('i l o v e h a r a m b e', function () {
+      alert('We all love him. <3. Take these harambes as thanks.');
+      notie.alert(1, '+100000', 1)
+      Cookies.set('harambeclicker', {
+        harambes: this.state.harambes + 100000
+      });
+      location.reload();
+    });
   },
 
   render: function() {
@@ -79,20 +130,36 @@ var CookieClicker = React.createClass({
     <div className="row">
       <div className="col-md-6">
         <div className="cookie-side">
-          <img className="cookie" src="./public/images/cookie.png" onClick={this.onCookieClick} />
-          <h2 className="lobster">Cookies: <small className="white">{this.state.cookies}</small><br/>
-          Bonus: <small className="white">{this.state.bonus}</small><br/>
-        Cursors: <small className="white">{this.state.cursor}</small><br/>
-      Cookies Per Second: <small className="white">{this.state.cps}</small></h2>
+          <img className="cookie loud-link-hover" data-sound="harambe" width="295" src="./public/images/harambe.png" onClick={this.onHarambeClick} />
         </div>
       </div>
       <div className="col-md-6">
           <div className="dash-side">
                 <h2 className="dashboard">Dashboard</h2>
-                <button onClick={this.onBuyBonus} className="btn btn-large btn-success">Buy Bonus <span className="badge">Cost: {this.state.bonuscost}</span></button>
-                <br />
-                <br />
-                <button onClick={this.onBuyCursor} className="btn btn-large btn-success">Buy Cursor <span className="badge">Cost: {this.state.cursorcost}</span></button>
+                <div className="col-md-6">
+                  <br />
+                  <button onClick={this.onBuyBonus} className="btn btn-large btn-success">Buy Bonus <span className="badge">Cost: {this.state.bonuscost}</span></button>
+                  <br />
+                  <br />
+                  <button onClick={this.onBuyBanana} className="btn btn-large btn-success">Buy Banana <span className="badge">Cost: {this.state.bananacost}</span></button>
+                  <br />
+                  <br />
+                  <button onClick={this.onBuyBananaFarm} className="btn btn-large btn-success">Buy Banana Farm <span className="badge">Cost: {this.state.bananafarmcost}</span></button>
+                  <br />
+                  <br />
+                  <button onClick={this.onSuperBonus} className="btn btn-large btn-success"><b>Buy <span className="heart">Heart of Harambe</span></b> <span className="badge">Cost: {this.state.superbonuscost} + Love</span></button>
+                </div>
+                <div className="col-md-6">
+                  <br />
+                  <div className="list-group">
+                    <button type="button" className="list-group-item"><span className="badge">{this.state.harambes}</span>Harambes</button>
+                    <button type="button" className="list-group-item"><span className="badge">{this.state.bonus}</span>Bonus</button>
+                    <button type="button" className="list-group-item"><span className="badge">{this.state.banana}</span>Bananas</button>
+                    <button type="button" className="list-group-item"><span className="badge">{this.state.bananafarms}</span>Bananas Farms</button>
+                      <button type="button" className="list-group-item"><span className="badge">{this.state.superbonus}</span>Heart of the Mother</button>
+                    <button type="button" className="list-group-item"><span className="badge">{this.state.hps}</span>Harambes Per Second</button>
+                  </div>
+                </div>
         </div>
       </div>
     </div>
@@ -105,4 +172,4 @@ var CookieClicker = React.createClass({
 
 });
 
-ReactDOM.render(<CookieClicker />, document.getElementById('app'));
+ReactDOM.render(<HarambeClicker />, document.getElementById('app'));
