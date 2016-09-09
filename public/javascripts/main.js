@@ -130,7 +130,7 @@ var HarambeClicker = React.createClass({
     <div className="row">
       <div className="col-md-6">
         <div className="cookie-side">
-          <img className="cookie loud-link-hover" data-sound="harambe" width="350" src="./public/images/harambe.png" onClick={this.onHarambeClick} />
+          <img className="cookie loud-link-hover" data-sound="harambe" width="500" src="./public/images/harambe.png" onClick={this.onHarambeClick} />
         </div>
       </div>
       <div className="col-md-6">
